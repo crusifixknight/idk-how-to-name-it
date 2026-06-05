@@ -13,11 +13,13 @@ public:
     EBook(AString title, AString author, AString publisher, const int year) noexcept
     : Book(std::move(title), std::move(author), std::move(publisher), year), mReaders(AVector<Reader>()) {}
 
+    EBook(EBook&& other) noexcept : Book(std::move(other)), mReaders(std::move(other.mReaders)) {}
+
     ~EBook() override = default;
 
     AString const& getBookContent() override;
 
-    [[nodiscard]] AVector<Reader> const& readers() const noexcept { return mReaders;}
+    [[nodiscard]] AVector<Reader> const& readers() const noexcept { return mReaders; }
 private:
     AVector<Reader> mReaders;
 };

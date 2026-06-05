@@ -7,9 +7,10 @@
 
 class Reader {
 public:
-    Reader(AString name) noexcept : mName(std::move(name)) {};
+    Reader(AString name) noexcept : mName(std::move(name)) {}
+    Reader(Reader&& reader) noexcept : mName(std::move(reader.mName)) {}
 
-    [[nodiscard]] AString const& name() const noexcept { return mName; };
+    [[nodiscard]] AString const& name() const noexcept { return mName; }
 private:
     AString mName;
 

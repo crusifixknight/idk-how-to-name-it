@@ -11,6 +11,11 @@ public:
     AudioBook(AString title, AString author, AString publisher, const int year, const Duration duration) noexcept
         : Book(std::move(title), std::move(author), std::move(publisher), year), mDuration(duration) {}
 
+    AudioBook(AudioBook&& other) noexcept
+    : Book(std::move(other)), mDuration(other.mDuration) {
+        other.mDuration = Duration();
+    }
+
     ~AudioBook() override = default;
 
     AString const& getBookContent() override;

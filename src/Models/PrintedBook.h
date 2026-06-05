@@ -12,12 +12,17 @@ public:
         : Book(std::move(title), std::move(author), std::move(publisher), year),
         mIsBooked(isBooked), mCountOfPages(countOfPages) {}
 
+    PrintedBook(PrintedBook&& other) noexcept : Book(std::move(other)),
+    mIsBooked(other.mIsBooked), mCountOfPages(other.mCountOfPages) {
+        other.mCountOfPages = 0;
+    }
+
     ~PrintedBook() override = default;
 
     AString const& getBookContent() override;
 
-    [[nodiscard]] bool isBooked() const noexcept { return mIsBooked;};
-    [[nodiscard]] int countOfPages() const noexcept { return mCountOfPages;};
+    [[nodiscard]] bool isBooked() const noexcept { return mIsBooked; }
+    [[nodiscard]] int countOfPages() const noexcept { return mCountOfPages; }
 private:
     bool mIsBooked;
     int mCountOfPages;
