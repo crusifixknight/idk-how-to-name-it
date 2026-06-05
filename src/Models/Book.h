@@ -19,10 +19,18 @@ public:
 
     virtual AString const& getBookContent() = 0;
 
+    void setBookInfo(AString, AString, AString, int);
+
+
     [[nodiscard]] AString const& title() const noexcept { return mTitle; }
     [[nodiscard]] AString const& author() const noexcept { return mAuthor; }
     [[nodiscard]] AString const& publisher() const noexcept { return mPublisher; }
     [[nodiscard]] int year() const noexcept { return mYear; }
+
+    Book& setTitle(AString title) noexcept { mTitle = std::move(title); return *this; }
+    Book& setAuthor(AString author) noexcept { mAuthor = std::move(author); return *this; }
+    Book& setPublisher(AString publisher) noexcept { mPublisher = std::move(publisher); return *this; }
+    Book& setYear(const int year) noexcept { mYear = year; return *this; }
 private:
     AString mTitle;
     AString mAuthor;

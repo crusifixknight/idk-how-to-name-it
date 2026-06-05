@@ -21,6 +21,12 @@ public:
     AString const& getBookContent() override;
 
     [[nodiscard]] Duration const& duration() const noexcept { return mDuration; }
+
+    AudioBook& setDuration(const Duration duration) noexcept { mDuration = duration; return *this; }
+    AudioBook& setTitle(AString title) noexcept { Book::setTitle(std::move(title)); return *this; }
+    AudioBook& setAuthor(AString author) noexcept { Book::setAuthor(std::move(author)); return *this; }
+    AudioBook& setPublisher(AString publisher) noexcept { Book::setPublisher(std::move(publisher)); return *this; }
+    AudioBook& setYear(const int year) noexcept { Book::setYear(year); return *this; }
 private:
     Duration mDuration;
 };

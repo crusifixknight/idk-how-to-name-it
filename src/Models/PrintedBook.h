@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Book.h"
+#include "Reader.h"
 
 class PrintedBook : public Book {
 public:
@@ -20,11 +21,22 @@ public:
     ~PrintedBook() override = default;
 
     AString const& getBookContent() override;
+    void setBookInfo(AString, AString, AString, int, bool, int);
 
     [[nodiscard]] bool isBooked() const noexcept { return mIsBooked; }
     [[nodiscard]] int countOfPages() const noexcept { return mCountOfPages; }
+    [[nodiscard]] _<Reader> const& bookedBy() const noexcept { return mBookedBy; }
+
+    PrintedBook& setIsBooked(const bool value) noexcept { mIsBooked = value; return *this; }
+    PrintedBook& setCountOfPages(const int value) noexcept { mCountOfPages = value; return *this; }
+    PrintedBook& setBookedBy(_<Reader> value) noexcept { mBookedBy = std::move(value); return *this; }
+    PrintedBook& setTitle(AString title) noexcept { Book::setTitle(std::move(title)); return *this; }
+    PrintedBook& setAuthor(AString author) noexcept { Book::setAuthor(std::move(author)); return *this; }
+    PrintedBook& setPublisher(AString publisher) noexcept { Book::setPublisher(std::move(publisher)); return *this; }
+    PrintedBook& setYear(const int year) noexcept { Book::setYear(year); return *this; }
 private:
     bool mIsBooked;
     int mCountOfPages;
+    _<Reader> mBookedBy;
 };
 
