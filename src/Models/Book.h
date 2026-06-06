@@ -37,4 +37,3 @@ private:
     AString mPublisher;
     int mYear;
 };
-

@@ -4,6 +4,8 @@
 #pragma once
 
 #include <AUI/Common/AString.h>
+#include <AUI/Common/AVector.h>
+#include "Book.h"
 
 class Reader {
 public:
@@ -11,7 +13,12 @@ public:
     Reader(Reader&& reader) noexcept : mName(std::move(reader.mName)) {}
 
     [[nodiscard]] AString const& name() const noexcept { return mName; }
+    [[nodiscard]] AVector<_<Book>> const& books() const noexcept { return mPickedBooks; }
+
+    Reader& takeBook(_<Book> const& book) noexcept { mPickedBooks.push_back(book); return *this; }
+    Reader& returnBook(_<Book> const& book) noexcept;
+    Reader& setName(AString const& name) noexcept { mName = name; return *this; }
 private:
     AString mName;
-
+    AVector<_<Book>> mPickedBooks;
 };

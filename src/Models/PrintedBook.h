@@ -27,9 +27,8 @@ public:
     [[nodiscard]] int countOfPages() const noexcept { return mCountOfPages; }
     [[nodiscard]] _<Reader> const& bookedBy() const noexcept { return mBookedBy; }
 
-    PrintedBook& setIsBooked(const bool value) noexcept { mIsBooked = value; return *this; }
     PrintedBook& setCountOfPages(const int value) noexcept { mCountOfPages = value; return *this; }
-    PrintedBook& setBookedBy(_<Reader> value) noexcept { mBookedBy = std::move(value); return *this; }
+    PrintedBook& setBookedBy(_<Reader> value) noexcept;
     PrintedBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
     PrintedBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
     PrintedBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }

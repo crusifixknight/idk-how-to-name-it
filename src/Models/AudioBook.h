@@ -1,8 +1,8 @@
 //
 // Created by crusifixknight on 6/5/2026.
 //
-
 #pragma once
+
 #include "Book.h"
 
 using Duration = std::chrono::duration<double>;
