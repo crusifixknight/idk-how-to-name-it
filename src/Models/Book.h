@@ -27,10 +27,10 @@ public:
     [[nodiscard]] AString const& publisher() const noexcept { return mPublisher; }
     [[nodiscard]] int year() const noexcept { return mYear; }
 
-    Book& setTitle(AString title) noexcept { mTitle = std::move(title); return *this; }
-    Book& setAuthor(AString author) noexcept { mAuthor = std::move(author); return *this; }
-    Book& setPublisher(AString publisher) noexcept { mPublisher = std::move(publisher); return *this; }
-    Book& setYear(const int year) noexcept { mYear = year; return *this; }
+    virtual Book& setTitle(AString title) noexcept { mTitle = std::move(title); return *this; }
+    virtual Book& setAuthor(AString author) noexcept { mAuthor = std::move(author); return *this; }
+    virtual Book& setPublisher(AString publisher) noexcept { mPublisher = std::move(publisher); return *this; }
+    virtual Book& setYear(const int year) noexcept { mYear = year; return *this; }
 private:
     AString mTitle;
     AString mAuthor;

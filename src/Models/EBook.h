@@ -22,10 +22,10 @@ public:
     [[nodiscard]] AVector<_<Reader>> const& readers() const noexcept { return mReaders; }
 
     EBook& addReader(_<Reader> reader) noexcept { mReaders.push_back(std::move(reader)); return *this; }
-    EBook& setTitle(AString title) noexcept { Book::setTitle(std::move(title)); return *this; }
-    EBook& setAuthor(AString author) noexcept { Book::setAuthor(std::move(author)); return *this; }
-    EBook& setPublisher(AString publisher) noexcept { Book::setPublisher(std::move(publisher)); return *this; }
-    EBook& setYear(const int year) noexcept { Book::setYear(year); return *this; }
+    EBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
+    EBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
+    EBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
+    EBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
     AVector<_<Reader>> mReaders;
 };
