@@ -28,8 +28,8 @@ public:
     _<Reader> findReader(AString const& searchName) noexcept;
     _<Book> findBook(AString const& searchTitle) noexcept;
 
-    bool giveBook(_<Book> const& book, _<Reader> const& reader) noexcept;
-    bool returnBook(_<Book> const& book, _<Reader> const& reader) noexcept;
+    bool giveBook(_<Book> const& book, _<Reader> const& reader);
+    bool returnBook(_<Book> const& book, _<Reader> const& reader);
 
 private:
     AVector<_<Book>> mBooks;

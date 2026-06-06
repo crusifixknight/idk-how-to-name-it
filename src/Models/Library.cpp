@@ -18,14 +18,14 @@ _<Book> Library::findBook(AString const& searchTitle) noexcept {
     return book ? *book : nullptr;
 }
 
-bool Library::giveBook(_<Book> const& book, _<Reader> const& reader) noexcept {
+bool Library::giveBook(_<Book> const& book, _<Reader> const& reader) {
     if (!book || !reader) { return false; }
 
     const auto printed = dynamic_pointer_cast<PrintedBook>(book);
     if (printed) {
 
         if (printed->isBooked()) { // If a printed book already has a reader, it cannot be transferred to another reader.
-            return false;
+            throw std::runtime_error("Book is already booked");
         }
 
         printed->setBookedBy(reader);
@@ -34,15 +34,17 @@ bool Library::giveBook(_<Book> const& book, _<Reader> const& reader) noexcept {
 
     return true;
 }
-bool Library::returnBook(_<Book> const& book, _<Reader> const& reader) noexcept {
+bool Library::returnBook(_<Book> const& book, _<Reader> const& reader) {
     if (!book || !reader) { return false; }
 
-    reader->returnBook(book);
+    if (!reader->readerHasBook(book)) { throw std::runtime_error("Reader does not have this book"); } // Checks is reader has this book in picked vector
 
     const auto printed = dynamic_pointer_cast<PrintedBook>(book);
     if (printed) {
         printed->setBookedBy(nullptr);
     }
+    reader->returnBook(book);
+
 
     return true;
 }
