@@ -14,6 +14,7 @@ public:
 
     [[nodiscard]] AString const& name() const noexcept { return mName; }
     [[nodiscard]] AVector<_<Book>> const& books() const noexcept { return mPickedBooks; }
+    [[nodiscard]] bool readerHasBook(_<Book> const& book) noexcept;
 
     Reader& takeBook(_<Book> const& book) noexcept { mPickedBooks.push_back(book); return *this; }
     Reader& returnBook(_<Book> const& book) noexcept;
