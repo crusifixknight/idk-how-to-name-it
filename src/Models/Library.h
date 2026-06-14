@@ -9,13 +9,14 @@
 
 #include <AUI/Common/AProperty.h>
 #include <AUI/Common/AVector.h>
+#include <AUI/Common/AProperty.h>
 
 class Library {
 public:
-    Library(AVector<_<Book>> books, AVector<_<Reader>> readers) noexcept
+    Library(AProperty<AVector<_<Book>>> books, AProperty<AVector<_<Reader>>> readers) noexcept
     : mBooks(std::move(books)), mReaders(std::move(readers)) {}
 
-    Library() : mBooks(AVector<_<Book>>()) {}
+    Library() : mBooks(AProperty<AVector<_<Book>>>()), mReaders(AProperty<AVector<_<Reader>>>() ) {}
 
     Library(Library&& library) noexcept : mBooks(std::move(library.mBooks)), mReaders(std::move(library.mReaders)) {}
 
