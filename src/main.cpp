@@ -4,14 +4,18 @@
 #include <BookList.h>
 #include <Models/Library.h>
 #include <Models/EBook.h>
+#include <UserList.h>
+#include <BookAdvanced.h>
 
 AUI_ENTRY {
-    //auto updater = _new<MyUpdater>();
-    //updater->handleStartup(args);
 
-    //_new<MainWindow>(std::move(updater))->show();
     auto library = _new<Library>();
     library->addBook(_new<EBook>("1984", "George Orwell", "Beba", 1488));
-    _new<BookList>(library->books())->show();
+    //_new<BookList>(library->books())->show();
+
+
+    //_new<UserList>(library->readers())->show();
+
+    _new<BookAdvanced>(library->books()[0]);
     return 0;
 };
