@@ -8,10 +8,9 @@
 
 class PrintedBook : public Book {
 public:
-    PrintedBook(AString title, AString author, AString publisher, const int year, const int countOfPages,
-        const bool isBooked) noexcept
+    PrintedBook(AString title, AString author, AString publisher, const int year, const int countOfPages) noexcept
         : Book(std::move(title), std::move(author), std::move(publisher), year),
-        mIsBooked(isBooked), mCountOfPages(countOfPages) {}
+        mIsBooked(false), mCountOfPages(countOfPages), mBookedBy(nullptr) {}
 
     PrintedBook(PrintedBook&& other) noexcept : Book(std::move(other)),
     mIsBooked(other.mIsBooked), mCountOfPages(other.mCountOfPages) {
