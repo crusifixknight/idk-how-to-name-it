@@ -14,5 +14,11 @@ void PrintedBook::setBookInfo(AString title, AString author, AString publisher, 
     mIsBooked = isBooked;
     mCountOfPages = countOfPages;
 }
+PrintedBook& PrintedBook::setBookedBy(_<Reader> value) noexcept {
+    mIsBooked = static_cast<bool>(value);
+    mBookedBy = std::move(value);
+
+    return *this;
+}
 
 
