@@ -1,5 +1,7 @@
 #include "UserList.h"
 
+#include "BookList.h"
+#include "UserAdvanced.h"
 #include "Models/Reader.h"
 
 #include <AUI/Util/Declarative/Containers.h>
@@ -10,10 +12,10 @@
 using namespace declarative;
 using namespace ass;
 
-UserList::UserList(AProperty<AVector<_<Reader>>> Readers) : mReaders(std::move(Readers)) {
+UserList::UserList(_<Library> library) : mLibrary(std::move(library)) {
     setContents(Vertical {
       _new<ATextField>(),
-      AUI_DECLARATIVE_FOR(i, *mReaders, AVerticalLayout) {
+      AUI_DECLARATIVE_FOR(i, *mLibrary->readers(), AVerticalLayout) {
           return Button {
                .content =
                    Label { "{}"_format(i->name()) }
@@ -23,8 +25,9 @@ UserList::UserList(AProperty<AVector<_<Reader>>> Readers) : mReaders(std::move(R
                        Margin { 3_dp },
                        Padding { 4_dp }
                },
-               .onClick = [i] {
+               .onClick = [this, &i] {
                    ALogger::debug("clicked");
+                   openUserAdvanced(i);
                }
           } AUI_OVERRIDE_STYLE {
            BackgroundSolid { AColor::GRAY.lighter(0.7f) },
@@ -44,7 +47,14 @@ UserList::UserList(AProperty<AVector<_<Reader>>> Readers) : mReaders(std::move(R
         SpacerExpanding(),
         Button {
           .content = Label { "To Books " },
+            .onClick = [this] {
+                this->close();
+                _new<BookList>(mLibrary)->show();
+            }
 
         },
       } });
+}
+void UserList::openUserAdvanced(const _<Reader> reader) {
+    _new<UserAdvanced>(mLibrary, reader)->show();
 };

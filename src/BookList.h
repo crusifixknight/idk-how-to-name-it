@@ -2,12 +2,12 @@
 
 #include <AUI/Platform/AWindow.h>
 #include "Models/Book.h"
-
+#include "Models/Library.h"
 
 class BookList : public AWindow {
 public:
-    BookList(AProperty<AVector<_<Book>>>);
+    BookList(_<Library>);
 
 private:
-    AProperty<AVector<_<Book>>> mBooks;
+    _<Library> mLibrary;
 };

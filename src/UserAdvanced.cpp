@@ -8,32 +8,31 @@
 using namespace declarative;
 using namespace ass;
 
-UserAdvanced::UserAdvanced(_<Reader> reader): mReader(std::move(reader)) {
-    setContents(Horizontal{
-        Vertical{
-            Label {"Name: "},
-            Label {mReader->name()}
+UserAdvanced::UserAdvanced(_<Library> const& library, _<Reader> reader): mLibrary(library), mReader(std::move(reader)) {
+    setContents(Horizontal {
+            Vertical {
+                Label { "Name: " },
+                Label { mReader->name() }
             },
-        Vertical{
-            Label {"Picked Books: "},
-            AUI_DECLARATIVE_FOR(i, mReader->books(), AVerticalLayout) {
-            return Label { "Book: {}"_format(i->title()) };
-                },
-            },
-      SpacerExpanding(),
-        Vertical{
-            SpacerExpanding(),
-                Button {
-                    .content = Label { "Add new book" },
-
-                },
-                Button {
-                    .content = Label { "Edit" },
-
-                },
-                Button {
-                    .content = Label { "Exit" },
-
-                },
-        }
-    } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } });}
+            Vertical {
+                Label { "Picked Books: " },
+                AUI_DECLARATIVE_FOR(book, mReader->books(), AVerticalLayout) {
+                    return Horizontal {
+                        Label { "Book: {}"_format(book->title()) }
+                            AUI_OVERRIDE_STYLE { Expanding { true } },
+                        Button {
+                            .content = Label { "Return" },
+                            .onClick = [this, book] {
+                                if (mLibrary->returnBook(book, mReader)) {
+                                    ALogger::debug("Book returned: {}"_format(book->title()));
+                                } else {
+                                    ALogger::warn("Failed to return book: {}"_format(book->title()));
+                                }
+                            }
+                        }
+                    };
+                }
+            }
+        } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } }
+    );
+}

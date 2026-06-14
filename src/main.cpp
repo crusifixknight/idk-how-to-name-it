@@ -27,7 +27,7 @@ AUI_ENTRY {
     };
 
     auto library = _new<Library>(books, readers);
-    // _new<UserList>(library->readers())->show();
-    _new<BookList>(library->books())->show();
+    _new<UserList>(library)->show();
+    // _new<BookList>(library->books())->show();
     return 0;
 };
