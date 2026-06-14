@@ -4,6 +4,8 @@
 #include "Models/PrintedBook.h"
 #include <AUI/Util/Declarative/Containers.h>
 #include <AUI/View/ALabel.h>
+#include <AUI/View/ASpacerExpanding.h>
+#include <AUI/View/AButton.h>
 
 using namespace declarative;
 using namespace ass;
@@ -30,7 +32,18 @@ BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
             Label {"Year: "},
             Label {"{}"_format(mBook->year())}
             },
-      Huyni() } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } });
+      Huyni(),
+              SpacerExpanding(),
+        Vertical{
+            SpacerExpanding(),
+                Button {
+                    .content = Label { "Edit" },
+
+                },
+                Button {
+                    .content = Label { "Exit" },
+
+                },} AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } }});
 
 }
 
