@@ -16,10 +16,10 @@ UserAdvanced::UserAdvanced(_<Library> const& library, _<Reader> reader): mLibrar
             },
             Vertical {
                 Label { "Picked Books: " },
-                AUI_DECLARATIVE_FOR(book, mReader->books(), AVerticalLayout) {
+                AUI_DECLARATIVE_FOR(book, *mReader->books(), AVerticalLayout) {
                     return Horizontal {
                         Label { "Book: {}"_format(book->title()) }
-                            AUI_OVERRIDE_STYLE { Expanding { true } },
+                            AUI_OVERRIDE_STYLE { Expanding { true }, Margin { 0, 5_dp, 0, 0}},
                         Button {
                             .content = Label { "Return" },
                             .onClick = [this, book] {

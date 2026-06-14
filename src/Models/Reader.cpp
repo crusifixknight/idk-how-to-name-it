@@ -6,11 +6,11 @@
 
 bool Reader::readerHasBook(_<Book> const& book) noexcept {
     auto predicate = [book](_<Book> const& pickedBook) noexcept { return pickedBook == book; };
-    const auto result = mPickedBooks.findIf(predicate);
+    const auto result = mPickedBooks.writeScope()->findIf(predicate);
     return result != nullptr;
 }
 
 Reader& Reader::returnBook(_<Book> const& book) noexcept {
-    mPickedBooks.removeAll(book);
+    mPickedBooks.writeScope()->removeAll(book);
     return *this;
 }
