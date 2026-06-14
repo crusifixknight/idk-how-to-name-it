@@ -44,7 +44,7 @@ Horizontal BookAdvanced::Huyni() {
             }
         };
     }
-        if (printedbook) {
+    if (printedbook) {
         return Horizontal {
             Vertical{
             Label {"Count of pages: "},
@@ -56,8 +56,9 @@ Horizontal BookAdvanced::Huyni() {
             },
             Vertical{
             Label {"Booked by: "},
-            Label {"{}"_format(printedbook->bookedBy())}
+            Label {"{}"_format(printedbook->bookedBy()->name())}
             }
         };
     }
+    return Horizontal {};
 }
