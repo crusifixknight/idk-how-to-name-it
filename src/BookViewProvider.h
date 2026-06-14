@@ -2,6 +2,7 @@
 // Created by crusifixknight on 6/14/2026.
 //
 
+#include "BookAdvanced.h"
 #include "Models/AudioBook.h"
 #include "Models/Book.h"
 #include "Models/EBook.h"
@@ -19,7 +20,7 @@ using namespace ass;
 using Duration = std::chrono::duration<double>;
 class BookViewProvider {
 public:
-    static _<AView> createCompactView(const _<Book>& book) {
+    static _<AView> createCompactView(_<Book> const& book, _<Library> const& library ) {
         return Button {
             .content = Vertical {
                 Label { "{}, {}"_format(book->title(), getFormatString(book)) }
@@ -29,8 +30,9 @@ public:
             } AUI_OVERRIDE_STYLE {
                 Expanding {}
             },
-            .onClick = [book] {
+            .onClick = [&library, &book] {
                 ALogger::debug("clicked");
+                _new<BookAdvanced>(library, book)->show();
             }
         } AUI_OVERRIDE_STYLE {
             BackgroundSolid { AColor::GRAY.lighter(0.7f) },
