@@ -13,7 +13,7 @@
 
 class Library {
 public:
-    Library(AProperty<AVector<_<Book>>> books, AProperty<AVector<_<Reader>>> readers) noexcept
+    Library(AVector<_<Book>> books, AVector<_<Reader>> readers) noexcept
     : mBooks(std::move(books)), mReaders(std::move(readers)) {}
 
     Library() : mBooks(AProperty<AVector<_<Book>>>()), mReaders(AProperty<AVector<_<Reader>>>() ) {}
