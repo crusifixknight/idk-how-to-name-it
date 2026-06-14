@@ -6,11 +6,13 @@
 #include <Models/EBook.h>
 #include <UserList.h>
 #include <BookAdvanced.h>
+#include <Models/AudioBook.h>
+#include <Models/PrintedBook.h>
 
 AUI_ENTRY {
 
     auto library = _new<Library>();
-    library->addBook(_new<EBook>("1984", "George Orwell", "Beba", 1488));
+    library->addBook(_new<AudioBook>("1984", "George Orwell", "Beba", 1488, std::chrono::duration<double>(2.5)));
     //_new<BookList>(library->books())->show();
 
 

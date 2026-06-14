@@ -8,7 +8,10 @@
 using namespace declarative;
 using namespace ass;
 
+
+
 BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
+    //setExtraStylesheet(AStylesheet { { t<AVerticalLayout>(), Margin { 10_dp } } });
 
     setContents(Horizontal{
         Vertical{
@@ -27,8 +30,7 @@ BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
             Label {"Year: "},
             Label {"{}"_format(mBook->year())}
             },
-        Huyni()
-    });
+      Huyni() } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } });
 
 }
 
