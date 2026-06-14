@@ -32,16 +32,14 @@ BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
 
 }
 
-Horizontal BookAdvanced::Huyni() {
+_<AView> BookAdvanced::Huyni() const {
     const auto ebook = std::dynamic_pointer_cast<EBook>(mBook);
     const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook);
     const auto printedbook = std::dynamic_pointer_cast<PrintedBook>(mBook);
     if (audiobook) {
-        return Horizontal {
-            Vertical{
+        return  Vertical{
             Label {"Duration: "},
             Label {"{}"_format(audiobook->duration())}
-            }
         };
     }
     if (printedbook) {
@@ -60,5 +58,5 @@ Horizontal BookAdvanced::Huyni() {
             }
         };
     }
-    return Horizontal {};
+    return nullptr;
 }
