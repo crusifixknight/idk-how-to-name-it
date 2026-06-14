@@ -14,7 +14,24 @@ UserList::UserList(AProperty<AVector<_<Reader>>> Readers) : mReaders(std::move(R
     setContents(Vertical {
       _new<ATextField>(),
       AUI_DECLARATIVE_FOR(i, *mReaders, AVerticalLayout) {
-           return Label { "Reader: {}"_format(i->name()) };
+          return Button {
+               .content =
+                   Label { "{}"_format(i->name()) }
+                   AUI_OVERRIDE_STYLE {
+                       BackgroundSolid { AColor::GRAY.lighter(0.7f) },
+                       BorderRadius { 8_dp },
+                       Margin { 3_dp },
+                       Padding { 4_dp }
+               },
+               .onClick = [i] {
+                   ALogger::debug("clicked");
+               }
+          } AUI_OVERRIDE_STYLE {
+           BackgroundSolid { AColor::GRAY.lighter(0.7f) },
+           BorderRadius { 8_dp },
+           Margin { 3_dp },
+           Padding { 4_dp }
+       };
 
       },
       SpacerExpanding(),
