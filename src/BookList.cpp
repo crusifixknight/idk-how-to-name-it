@@ -1,6 +1,9 @@
 #include "BookList.h"
 
+#include "BookViewProvider.h"
+#include "Models/AudioBook.h"
 #include "Models/EBook.h"
+#include "Models/PrintedBook.h"
 
 #include <AUI/Util/Declarative/Containers.h>
 #include <AUI/View/AForEachUI.h>
@@ -16,12 +19,7 @@ BookList::BookList(AProperty<AVector<_<Book>>> Books): mBooks(std::move(Books)) 
     setContents(Vertical {
       _new<ATextField>(),
       AUI_DECLARATIVE_FOR(i, *mBooks, AVerticalLayout) {
-          const auto ebook = dynamic_pointer_cast<EBook>(i);
-          if (ebook) {
-              return Label { "Ebook: {}"_format(i->title()) };
-          }
-          // TODO: Add for other books
-          return Label { "Other books" };
+            return BookViewProvider::createCompactView(i);
       },
       SpacerExpanding(),
       Horizontal {
