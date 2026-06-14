@@ -8,10 +8,9 @@
 
 class PrintedBook : public Book {
 public:
-    PrintedBook(AString title, AString author, AString publisher, const int year, const int countOfPages,
-        const bool isBooked) noexcept
+    PrintedBook(AString title, AString author, AString publisher, const int year, const int countOfPages) noexcept
         : Book(std::move(title), std::move(author), std::move(publisher), year),
-        mIsBooked(isBooked), mCountOfPages(countOfPages) {}
+        mIsBooked(false), mCountOfPages(countOfPages), mBookedBy(nullptr) {}
 
     PrintedBook(PrintedBook&& other) noexcept : Book(std::move(other)),
     mIsBooked(other.mIsBooked), mCountOfPages(other.mCountOfPages) {
@@ -27,13 +26,12 @@ public:
     [[nodiscard]] int countOfPages() const noexcept { return mCountOfPages; }
     [[nodiscard]] _<Reader> const& bookedBy() const noexcept { return mBookedBy; }
 
-    PrintedBook& setIsBooked(const bool value) noexcept { mIsBooked = value; return *this; }
     PrintedBook& setCountOfPages(const int value) noexcept { mCountOfPages = value; return *this; }
-    PrintedBook& setBookedBy(_<Reader> value) noexcept { mBookedBy = std::move(value); return *this; }
-    PrintedBook& setTitle(AString title) noexcept { Book::setTitle(std::move(title)); return *this; }
-    PrintedBook& setAuthor(AString author) noexcept { Book::setAuthor(std::move(author)); return *this; }
-    PrintedBook& setPublisher(AString publisher) noexcept { Book::setPublisher(std::move(publisher)); return *this; }
-    PrintedBook& setYear(const int year) noexcept { Book::setYear(year); return *this; }
+    PrintedBook& setBookedBy(_<Reader> value) noexcept;
+    PrintedBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
+    PrintedBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
+    PrintedBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
+    PrintedBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
     bool mIsBooked;
     int mCountOfPages;

@@ -1,8 +1,8 @@
 //
 // Created by crusifixknight on 6/5/2026.
 //
-
 #pragma once
+
 #include "Book.h"
 
 using Duration = std::chrono::duration<double>;
@@ -23,10 +23,10 @@ public:
     [[nodiscard]] Duration const& duration() const noexcept { return mDuration; }
 
     AudioBook& setDuration(const Duration duration) noexcept { mDuration = duration; return *this; }
-    AudioBook& setTitle(AString title) noexcept { Book::setTitle(std::move(title)); return *this; }
-    AudioBook& setAuthor(AString author) noexcept { Book::setAuthor(std::move(author)); return *this; }
-    AudioBook& setPublisher(AString publisher) noexcept { Book::setPublisher(std::move(publisher)); return *this; }
-    AudioBook& setYear(const int year) noexcept { Book::setYear(year); return *this; }
+    AudioBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
+    AudioBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
+    AudioBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
+    AudioBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
     Duration mDuration;
 };
