@@ -10,7 +10,7 @@ using namespace declarative;
 class BookAdvanced : public AWindow {
 public:
     BookAdvanced(_<Book> book);
-    Horizontal Huyni();
+    _<AView> Huyni() const;
 
 private:
     _<Book> mBook;

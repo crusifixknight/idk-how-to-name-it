@@ -16,6 +16,7 @@ AUI_ENTRY {
 
     //_new<UserList>(library->readers())->show();
 
-    _new<BookAdvanced>(library->books()[0]);
+    auto a = library->books()->at(0);
+    _new<BookAdvanced>(a)->show();
     return 0;
 };
