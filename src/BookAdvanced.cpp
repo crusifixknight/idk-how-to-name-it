@@ -45,6 +45,12 @@ _<AView> BookAdvanced::Huyni() const {
         };
     }
     if (printedbook) {
+        AString readersName;
+        if (printedbook->bookedBy())
+            readersName = printedbook->bookedBy()->name();
+        else
+            readersName = "None";
+
         return Horizontal {
             Vertical{
             Label {"Count of pages: "},
@@ -56,7 +62,7 @@ _<AView> BookAdvanced::Huyni() const {
             },
             Vertical{
             Label {"Booked by: "},
-            Label {"{}"_format(printedbook->bookedBy()->name())}
+            Label {"{}"_format(readersName)}
             }
         };
     }
