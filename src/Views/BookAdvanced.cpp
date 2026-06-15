@@ -9,8 +9,8 @@
 #include <AUI/View/AButton.h>
 #include <AUI/View/AForEachUI.h>
 #include <AUI/View/ARadioButton.h>
-#include <AUI/View/ATextField.h>
 #include <AUI/ASS/ASS.h>
+#include <Helpers/ChronoFormat.h>
 
 using namespace declarative;
 using namespace ass;
@@ -58,15 +58,19 @@ void BookAdvanced::ParamList() {
             Button {
               .content = Label { "Edit" },
               .onClick = [this] { ParamListEdit(); }
+            },
+            Button {
+              .content = Label { "Delete" },
+              
             }
           } AUI_OVERRIDE_STYLE { LayoutSpacing { 20_dp } } });
 }
 
 void BookAdvanced::ParamListEdit() {
-    auto tfName = _new<ATextField>();
-    auto tfAuthor = _new<ATextField>();
-    auto tfPublisher = _new<ATextField>();
-    auto tfYear = _new<ATextField>();
+    tfName = _new<ATextField>();
+    tfAuthor = _new<ATextField>();
+    tfPublisher = _new<ATextField>();
+    tfYear = _new<ATextField>();
 
 
     tfName->setText(mBook->title().value());
@@ -78,25 +82,21 @@ void BookAdvanced::ParamListEdit() {
        Vertical { Label { "Name: " }, tfName },
        Vertical { Label { "Author: " }, tfAuthor },
        Vertical { Label { "Publisher: " }, tfPublisher },
-       Vertical { Label { "Year: " }, tfYear }, Huyni(),
+       Vertical { Label { "Year: " }, tfYear }, HuyniEdit(),
           
        SpacerExpanding(),
           Vertical {
              SpacerExpanding(),
               Button {
                   .content = Label { "Edit" },
-                  .onClick = [this, tfName, tfAuthor, tfPublisher, tfYear] {
-                      mBook->setTitle(tfName->getText())
-                        .setAuthor(tfAuthor->getText())
-                        .setPublisher(tfPublisher->getText())
-                        .setYear(std::stoi(tfYear->getText()));
-                      ParamList();
-                  }
+                  .onClick = {me::SaveEdit}
               }
           } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp }
           }
     });
 }
+
+
     
 
 _<AView> BookAdvanced::Huyni() const noexcept{
@@ -122,4 +122,38 @@ _<AView> BookAdvanced::Huyni() const noexcept{
 }
 void BookAdvanced::buttonControl(_<Reader> const& reader) noexcept {
     mButton->setDisabled(static_cast<bool>(reader));
+}
+
+_<AView> BookAdvanced::HuyniEdit() noexcept {
+    if (const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook)) {
+        tfDuration = _new<ATextField>();
+        tfDuration->setText("{}"_format(BookViewProvider::formatDuration(audiobook->duration())));
+        return Vertical {
+            Label { "Duration: " }, tfDuration
+        };
+    }
+    if (const auto printedbook = std::dynamic_pointer_cast<PrintedBook>(mBook)) {
+        tfCountOfPages = _new<ATextField>();
+        tfCountOfPages->setText("{}"_format(printedbook->countOfPages()));
+        return Horizontal {
+            Vertical { Label { "Count of pages: " }, tfCountOfPages },
+            
+        };
+    }
+    return nullptr;
+}
+
+
+void BookAdvanced::SaveEdit() {
+    if (const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook)) {
+        audiobook->setDuration(ChronoFormat::parseDuration(tfDuration->getText()));
+    }
+    if (const auto printedbook = std::dynamic_pointer_cast<PrintedBook>(mBook)) {
+        printedbook->setCountOfPages(std::stoi(tfCountOfPages->getText()));
+    }
+    mBook->setTitle(tfName->getText())
+        .setAuthor(tfAuthor->getText())
+        .setPublisher(tfPublisher->getText())
+        .setYear(std::stoi(tfYear->getText()));
+    ParamList();
 }
