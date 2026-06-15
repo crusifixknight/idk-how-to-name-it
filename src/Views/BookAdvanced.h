@@ -37,6 +37,7 @@ private:
     void ParamListEdit();
 
     void SaveEdit();
+    void RemoveBook();
 
 
     void buttonControl(_<Reader> const&) noexcept;

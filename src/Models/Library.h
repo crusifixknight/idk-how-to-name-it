@@ -23,6 +23,8 @@ public:
     [[nodiscard]] AProperty<AVector<_<Reader>>> const& readers() const noexcept { return mReaders; }
 
     Library& addBook(_<Book> book) noexcept { mBooks.writeScope()->emplace_back(std::move(book)); return *this; }
+    Library& removeBook(_<Book> const& book) noexcept { mBooks.writeScope()->removeAll(book); return *this; }
+
     Library& addReader(_<Reader> reader) noexcept { mReaders.writeScope()->push_back(std::move(reader)); return *this; }
     Library& removeReader(_<Reader> const& reader) noexcept { mReaders.writeScope()->removeAll(reader); return *this; }
 
