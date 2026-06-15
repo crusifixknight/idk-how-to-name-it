@@ -57,10 +57,11 @@ void BookAdvanced::ParamList() {
             SpacerExpanding(),
             Button {
               .content = Label { "Edit" },
-              .onClick = [this] { ParamListEdit(); }
+              .onClick = { me::ParamListEdit }
             },
             Button {
               .content = Label { "Delete" },
+                .onClick = {me::RemoveBook }
               
             }
           } AUI_OVERRIDE_STYLE { LayoutSpacing { 20_dp } } });
@@ -96,9 +97,6 @@ void BookAdvanced::ParamListEdit() {
     });
 }
 
-
-    
-
 _<AView> BookAdvanced::Huyni() const noexcept{
     if (const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook)) {
         return  Vertical{
@@ -120,6 +118,7 @@ _<AView> BookAdvanced::Huyni() const noexcept{
     }
     return nullptr;
 }
+
 void BookAdvanced::buttonControl(_<Reader> const& reader) noexcept {
     mButton->setDisabled(static_cast<bool>(reader));
 }
@@ -143,7 +142,6 @@ _<AView> BookAdvanced::HuyniEdit() noexcept {
     return nullptr;
 }
 
-
 void BookAdvanced::SaveEdit() {
     if (const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook)) {
         audiobook->setDuration(ChronoFormat::parseDuration(tfDuration->getText()));
@@ -156,4 +154,14 @@ void BookAdvanced::SaveEdit() {
         .setPublisher(tfPublisher->getText())
         .setYear(std::stoi(tfYear->getText()));
     ParamList();
+}
+
+void BookAdvanced::RemoveBook() {
+    for (auto& reader : *StaticElements::library->readers()) {
+        if (reader->readerHasBook(mBook)) {
+            reader->returnBook(mBook);
+        }
+    }
+    StaticElements::library->removeBook(mBook);
+    this->close();
 }
