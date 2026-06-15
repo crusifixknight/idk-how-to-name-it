@@ -6,10 +6,9 @@
 #include "Book.h"
 #include "Reader.h"
 #include "PrintedBook.h"
-
 #include <AUI/Common/AProperty.h>
 #include <AUI/Common/AVector.h>
-#include <AUI/Common/AProperty.h>
+
 
 class Library {
 public:

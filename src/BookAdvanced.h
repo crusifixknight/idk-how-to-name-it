@@ -5,22 +5,25 @@
 
 #include <AUI/Platform/AWindow.h>
 #include <Models/Book.h>
-#include <AUI/Util/Declarative/Containers.h>
-
+#include <AUI/View/AButton.h>
 
 using namespace declarative;
 class BookAdvanced : public AWindow {
 public:
     BookAdvanced(_<Library> const& library, _<Book>);
-    _<AView> Huyni() const;
+    _<AView> Huyni() const noexcept;
 
     ~BookAdvanced() override = default;
 private:
     _<Book> mBook;
     _<Library> mLibrary;
 
+    _<AButton> mButton;
+
     struct State {
         AProperty<_<Reader>> mSelectedReader = nullptr;
         AProperty<AVector<_<Reader>>> mReaders;
     };
+
+    void buttonControl(_<Reader> const&) noexcept;
 };

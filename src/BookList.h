@@ -8,6 +8,7 @@ class BookList : public AWindow {
 public:
     BookList(_<Library>);
 
+    ~BookList() override = default;
 private:
     _<Library> mLibrary;
     void createBook();
