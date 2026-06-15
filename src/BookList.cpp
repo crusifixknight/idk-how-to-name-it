@@ -13,11 +13,11 @@ using namespace ass;
 
 
 
-BookList::BookList(_<Library> library): mLibrary(std::move(library)) {
+BookList::BookList() {
     setContents(Vertical {
       _new<ATextField>(),
-      AUI_DECLARATIVE_FOR(i, *mLibrary->books(), AVerticalLayout) {
-            return BookViewProvider::createCompactView(i, mLibrary);
+      AUI_DECLARATIVE_FOR(i, *StaticElements::library->books(), AVerticalLayout) {
+            return BookViewProvider::createCompactView(i);
       },
       SpacerExpanding(),
       Horizontal {
@@ -25,7 +25,7 @@ BookList::BookList(_<Library> library): mLibrary(std::move(library)) {
         Button {
           .content = Label { "Add new book" },
             .onClick = [this] {
-                _new<CreateBookWindow>(mLibrary)->show();
+                _new<CreateBookWindow>()->show();
             }
         },
         SpacerExpanding(),
@@ -33,7 +33,7 @@ BookList::BookList(_<Library> library): mLibrary(std::move(library)) {
               .content = Label { "To Readers " },
               .onClick = [this] {
                   this->close();
-                  _new<UserList>(mLibrary)->show();
+                  _new<UserList>()->show();
               }
           } ,
       } });

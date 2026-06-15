@@ -1,6 +1,7 @@
 #include "UserList.h"
 
 #include "BookList.h"
+#include "StaticElements.h"
 #include "UserAdvanced.h"
 #include "Models/Reader.h"
 
@@ -12,10 +13,10 @@
 using namespace declarative;
 using namespace ass;
 
-UserList::UserList(_<Library> library) : mLibrary(std::move(library)) {
+UserList::UserList() {
     setContents(Vertical {
       _new<ATextField>(),
-      AUI_DECLARATIVE_FOR(i, *mLibrary->readers(), AVerticalLayout) {
+      AUI_DECLARATIVE_FOR(i, *StaticElements::library->readers(), AVerticalLayout) {
           return Button {
                .content =
                    Label { "{}"_format(i->name()) }
@@ -49,12 +50,12 @@ UserList::UserList(_<Library> library) : mLibrary(std::move(library)) {
           .content = Label { "To Books " },
             .onClick = [this] {
                 this->close();
-                _new<BookList>(mLibrary)->show();
+                _new<BookList>()->show();
             }
 
         },
       } });
 }
 void UserList::openUserAdvanced(const _<Reader> reader) {
-    _new<UserAdvanced>(mLibrary, reader)->show();
+    _new<UserAdvanced>(reader)->show();
 };
