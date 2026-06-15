@@ -1,7 +1,6 @@
 #include "BookAdvanced.h"
 
-#include "BookViewProvider.h"
-#include "Models/EBook.h"
+#include "Helpers/BookViewProvider.h"
 #include "Models/AudioBook.h"
 #include "Models/PrintedBook.h"
 #include <AUI/Util/Declarative/Containers.h>

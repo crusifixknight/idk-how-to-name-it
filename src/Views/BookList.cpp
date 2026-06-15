@@ -1,8 +1,9 @@
-#include "BookList.h"
 
-#include "BookViewProvider.h"
+#include "Helpers/BookViewProvider.h"
+#include "BookList.h"
 #include "CreateBookWindow.h"
 #include "UserList.h"
+#include "Models/Library.h"
 #include <AUI/Util/Declarative/Containers.h>
 #include <AUI/View/AForEachUI.h>
 #include <AUI/View/ATextField.h>

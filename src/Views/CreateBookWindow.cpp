@@ -5,7 +5,7 @@
 #include "CreateBookWindow.h"
 
 #include "BookAdvanced.h"
-#include "StaticElements.h"
+#include "Helpers/StaticElements.h"
 #include "Models/AudioBook.h"
 #include "Models/EBook.h"
 

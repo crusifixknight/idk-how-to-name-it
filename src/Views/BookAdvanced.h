@@ -2,9 +2,9 @@
 
 #include "Models/Library.h"
 #include "Models/Reader.h"
+#include "Models/Book.h"
 
 #include <AUI/Platform/AWindow.h>
-#include <Models/Book.h>
 #include <AUI/View/AButton.h>
 
 using namespace declarative;
