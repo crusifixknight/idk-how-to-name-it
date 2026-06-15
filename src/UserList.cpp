@@ -1,6 +1,7 @@
 #include "UserList.h"
 
 #include "BookList.h"
+#include "CreateUserWindow.h"
 #include "StaticElements.h"
 #include "UserAdvanced.h"
 #include "Models/Reader.h"
@@ -43,6 +44,9 @@ UserList::UserList() {
 
         Button {
           .content = Label { "Add new reader" },
+            .onClick = []{
+                _new<CreateUserWindow>()->show();
+            }
 
         },
         SpacerExpanding(),
