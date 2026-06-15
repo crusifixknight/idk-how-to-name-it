@@ -28,5 +28,5 @@ public:
     AudioBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
     AudioBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
-    Duration mDuration;
+    AProperty<Duration> mDuration;
 };

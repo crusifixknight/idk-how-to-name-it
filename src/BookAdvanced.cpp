@@ -1,4 +1,6 @@
 #include "BookAdvanced.h"
+
+#include "BookViewProvider.h"
 #include "Models/EBook.h"
 #include "Models/AudioBook.h"
 #include "Models/PrintedBook.h"
@@ -13,15 +15,30 @@ using namespace declarative;
 using namespace ass;
 
 BookAdvanced::BookAdvanced(_<Library> const& library, _<Book> book) : mLibrary(library), mBook(std::move(book)) {
-    bool isAvailable = true;
-    if (auto printed = dynamic_pointer_cast<PrintedBook>(mBook)) {
-        isAvailable = !printed->isBooked();
+    auto state = _new<State>();
+    std::copy(mLibrary->readers().value().begin(), mLibrary->readers().value().end(), std::back_inserter(state->mReaders.writeScope().value()));
+
+    mButton = _new<AButton>();
+
+    mButton->setContents( Stacked{
+            Label { "Take book" }
+        }
+    );
+
+    connect(mButton->clicked, [this, state] {
+        if (state->mSelectedReader && mLibrary->giveBook(mBook, state->mSelectedReader)) {
+            ALogger::debug("Book '{}' taken by {}"_format( mBook->title(), state->mSelectedReader->value().name()));
+        } else {
+            ALogger::warn("No reader selected or failed to take book");
+        }
+    });
+
+    if (auto printedbook = std::dynamic_pointer_cast<PrintedBook>(mBook)) {
+        buttonControl(printedbook->bookedBy().value());
+        connect(printedbook->bookedBy().changed, AUI_SLOT(this)::buttonControl);
     }
 
-    auto state = _new<State>();
-    for (const auto& reader : *mLibrary->readers()) {
-        state->mReaders.writeScope()->push_back(reader);
-    }
+
 
     setContents(Horizontal{
         Vertical{
@@ -51,16 +68,7 @@ BookAdvanced::BookAdvanced(_<Library> const& library, _<Book> book) : mLibrary(l
                 .content = Label { reader->name() },
             };
         },
-        Button {
-            .content = Label { "Take book" },
-            .onClick = [this, state] {
-                if (state->mSelectedReader && mLibrary->giveBook(mBook, state->mSelectedReader)) {
-                    ALogger::debug("Book '{}' taken by {}"_format( mBook->title(), state->mSelectedReader->value().name()));
-                } else {
-                    ALogger::warn("No reader selected or failed to take book");
-                }
-            }
-        },
+        mButton,
         SpacerExpanding(),
         Vertical{
             SpacerExpanding(),
@@ -76,26 +84,18 @@ BookAdvanced::BookAdvanced(_<Library> const& library, _<Book> book) : mLibrary(l
 
 }
 
-_<AView> BookAdvanced::Huyni() const {
-    const auto ebook = std::dynamic_pointer_cast<EBook>(mBook);
-    const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook);
-    const auto printedbook = std::dynamic_pointer_cast<PrintedBook>(mBook);
-    if (audiobook) {
+_<AView> BookAdvanced::Huyni() const noexcept{
+    if (const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook)) {
         return  Vertical{
             Label {"Duration: "},
-            Label {"{}"_format(audiobook->duration())}
+            Label {"{}"_format(BookViewProvider::formatDuration(audiobook->duration()))}
         };
     }
-    if (printedbook) {
-
+    if (const auto printedbook = std::dynamic_pointer_cast<PrintedBook>(mBook)) {
         return Horizontal {
             Vertical{
             Label {"Count of pages: "},
-            Label {AUI_REACT("{}"_format(printedbook->countOfPages()))}
-            },
-            Vertical{
-            Label {"Is booked? "},
-            Label {AUI_REACT("{}"_format(printedbook->isBooked()))}
+            Label {"{}"_format(printedbook->countOfPages())}
             },
             Vertical{
             Label {"Booked by: "},
@@ -104,4 +104,7 @@ _<AView> BookAdvanced::Huyni() const {
         };
     }
     return nullptr;
+}
+void BookAdvanced::buttonControl(_<Reader> const& reader) noexcept {
+    mButton->setDisabled(static_cast<bool>(reader));
 }

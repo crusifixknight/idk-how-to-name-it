@@ -22,6 +22,6 @@ public:
     Reader& returnBook(_<Book> const& book) noexcept;
     Reader& setName(AString const& name) noexcept { mName = name; return *this; }
 private:
-    AString mName;
+    AProperty<AString> mName;
     AProperty<AVector<_<Book>>> mPickedBooks;
 };

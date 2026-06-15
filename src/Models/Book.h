@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <AUI/Common/AProperty.h>
 #include <AUI/Common/AString.h>
 
 class Book {
@@ -32,8 +33,8 @@ public:
     virtual Book& setPublisher(AString publisher) noexcept { mPublisher = std::move(publisher); return *this; }
     virtual Book& setYear(const int year) noexcept { mYear = year; return *this; }
 private:
-    AString mTitle;
-    AString mAuthor;
-    AString mPublisher;
-    int mYear;
+    AProperty<AString> mTitle;
+    AProperty<AString> mAuthor;
+    AProperty<AString> mPublisher;
+    AProperty<int> mYear;
 };

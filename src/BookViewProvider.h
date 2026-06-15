@@ -42,6 +42,18 @@ public:
         };
     }
 
+    static AString formatDuration(const Duration duration) {
+        const auto hms = std::chrono::hh_mm_ss(duration);
+
+        std::ostringstream oss;
+        oss << std::setfill('0')
+            << std::setw(2) << hms.hours().count() << ":"
+            << std::setw(2) << hms.minutes().count() << ":"
+            << std::setw(2) << hms.seconds().count();
+
+        return oss.str();
+    }
+
 private:
     static AString getFormatString(const _<Book>& book) {
         if (const auto ebook = std::dynamic_pointer_cast<EBook>(book)) {
@@ -67,15 +79,4 @@ private:
         return baseInfo;
     }
 
-    static AString formatDuration(const Duration duration) {
-        const auto hms = std::chrono::hh_mm_ss(duration);
-
-        std::ostringstream oss;
-        oss << std::setfill('0')
-            << std::setw(2) << hms.hours().count() << ":"
-            << std::setw(2) << hms.minutes().count() << ":"
-            << std::setw(2) << hms.seconds().count();
-
-        return oss.str();
-    }
 };
