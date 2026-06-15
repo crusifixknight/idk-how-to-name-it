@@ -14,6 +14,7 @@ public:
     BookAdvanced(_<Library> const& library, _<Book>);
     _<AView> Huyni() const;
 
+    ~BookAdvanced() override = default;
 private:
     _<Book> mBook;
     _<Library> mLibrary;

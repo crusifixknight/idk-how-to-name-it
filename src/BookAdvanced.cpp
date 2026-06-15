@@ -87,24 +87,19 @@ _<AView> BookAdvanced::Huyni() const {
         };
     }
     if (printedbook) {
-        AString readersName;
-        if (printedbook->bookedBy())
-            readersName = printedbook->bookedBy()->name();
-        else
-            readersName = "None";
 
         return Horizontal {
             Vertical{
             Label {"Count of pages: "},
-            Label {"{}"_format(printedbook->countOfPages())}
+            Label {AUI_REACT("{}"_format(printedbook->countOfPages()))}
             },
             Vertical{
             Label {"Is booked? "},
-            Label {"{}"_format(printedbook->isBooked())}
+            Label {AUI_REACT("{}"_format(printedbook->isBooked()))}
             },
             Vertical{
             Label {"Booked by: "},
-            Label {"{}"_format(readersName)}
+            Label {AUI_REACT("{}"_format(static_cast<bool>(printedbook->bookedBy().value()) ? printedbook->bookedBy().value()->name() : "None"))}
             }
         };
     }

@@ -1,11 +1,8 @@
 #include "BookList.h"
 
 #include "BookViewProvider.h"
+#include "CreateBookWindow.h"
 #include "UserList.h"
-#include "Models/AudioBook.h"
-#include "Models/EBook.h"
-#include "Models/PrintedBook.h"
-
 #include <AUI/Util/Declarative/Containers.h>
 #include <AUI/View/AForEachUI.h>
 #include <AUI/View/ATextField.h>
@@ -27,6 +24,9 @@ BookList::BookList(_<Library> library): mLibrary(std::move(library)) {
 
         Button {
           .content = Label { "Add new book" },
+            .onClick = [this] {
+                _new<CreateBookWindow>(mLibrary)->show();
+            }
         },
         SpacerExpanding(),
           Button {
@@ -37,4 +37,4 @@ BookList::BookList(_<Library> library): mLibrary(std::move(library)) {
               }
           } ,
       } });
-};
+}
