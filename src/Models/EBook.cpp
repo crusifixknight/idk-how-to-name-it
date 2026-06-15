@@ -3,7 +3,3 @@
 //
 
 #include "EBook.h"
-
-AString const& EBook::getBookContent() {
-    return "some book content";
-}

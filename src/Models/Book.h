@@ -16,12 +16,9 @@ public:
         other.mYear = 0;
     }
 
-    virtual ~Book() = default;
-
-    virtual AString const& getBookContent() = 0;
+    virtual ~Book() = 0;
 
     void setBookInfo(AString, AString, AString, int);
-
 
     [[nodiscard]] AString const& title() const noexcept { return mTitle; }
     [[nodiscard]] AString const& author() const noexcept { return mAuthor; }
@@ -38,3 +35,5 @@ private:
     AProperty<AString> mPublisher;
     AProperty<int> mYear;
 };
+
+inline Book::~Book() = default;

@@ -18,8 +18,6 @@ public:
 
     ~AudioBook() override = default;
 
-    AString const& getBookContent() override;
-
     [[nodiscard]] Duration const& duration() const noexcept { return mDuration; }
 
     AudioBook& setDuration(const Duration duration) noexcept { mDuration = duration; return *this; }

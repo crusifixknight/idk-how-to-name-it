@@ -19,7 +19,6 @@ public:
 
     ~PrintedBook() override = default;
 
-    AString const& getBookContent() override;
     void setBookInfo(AString, AString, AString, int, bool, int);
 
     [[nodiscard]] AProperty<bool> isBooked() const noexcept { return mIsBooked; }
