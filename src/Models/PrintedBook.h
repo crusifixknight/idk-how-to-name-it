@@ -22,9 +22,9 @@ public:
     AString const& getBookContent() override;
     void setBookInfo(AString, AString, AString, int, bool, int);
 
-    [[nodiscard]] bool isBooked() const noexcept { return mIsBooked; }
-    [[nodiscard]] int countOfPages() const noexcept { return mCountOfPages; }
-    [[nodiscard]] _<Reader> const& bookedBy() const noexcept { return mBookedBy; }
+    [[nodiscard]] AProperty<bool> isBooked() const noexcept { return mIsBooked; }
+    [[nodiscard]] AProperty<int> countOfPages() const noexcept { return mCountOfPages; }
+    [[nodiscard]] AProperty<_<Reader>> const& bookedBy() const noexcept { return mBookedBy; }
 
     PrintedBook& setCountOfPages(const int value) noexcept { mCountOfPages = value; return *this; }
     PrintedBook& setBookedBy(_<Reader> value) noexcept;
@@ -33,8 +33,8 @@ public:
     PrintedBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
     PrintedBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
-    bool mIsBooked;
-    int mCountOfPages;
-    _<Reader> mBookedBy;
+    AProperty<bool> mIsBooked;
+    AProperty<int> mCountOfPages;
+    AProperty<_<Reader>> mBookedBy;
 };
 

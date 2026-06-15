@@ -10,4 +10,5 @@ public:
 
 private:
     _<Library> mLibrary;
+    void createBook();
 };
