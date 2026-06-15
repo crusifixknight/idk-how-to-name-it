@@ -11,6 +11,19 @@ using namespace declarative;
 using namespace ass;
 
 UserAdvanced::UserAdvanced( _<Reader> reader) : mReader(std::move(reader)) {
+    auto button = _new<AButton>();
+
+    button->setContents(
+        Centered{
+            Label{ "Delete"}
+        }
+    );
+    connect(button->clicked, [this] { StaticElements::library->removeReader(mReader); this->close(); } );
+    button->setEnabled(mReader->books().value().empty());
+    connect(mReader->books().changed, [this, button] {
+        button->setEnabled(mReader->books().value().empty());
+    });
+
     setContents(Horizontal {
             Vertical {
                 Label { "Name: " },
@@ -34,11 +47,8 @@ UserAdvanced::UserAdvanced( _<Reader> reader) : mReader(std::move(reader)) {
                         }
                     };
                 },
-                    SpacerExpanding(),
-                    Button {
-                    .content = Label { "Delete" },
-                    .onClick = [this] { StaticElements::library->removeReader(mReader); this->close(); },
-                    }
+                SpacerExpanding(),
+                button
                 
             }
         } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } }
