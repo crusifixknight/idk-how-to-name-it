@@ -25,10 +25,7 @@ BookList::BookList(_<Library> library): mLibrary(std::move(library)) {
         Button {
           .content = Label { "Add new book" },
             .onClick = [this] {
-                if (mCreateBookWindow)
-                    mCreateBookWindow->close();
-                mCreateBookWindow = _new<CreateBookWindow>(mLibrary);
-                mCreateBookWindow->show();
+                _new<CreateBookWindow>(mLibrary)->show();
             }
         },
         SpacerExpanding(),
