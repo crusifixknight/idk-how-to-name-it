@@ -12,7 +12,7 @@ _<Reader> Library::findReader(AString const& searchName) noexcept {
 }
 
 _<Book> Library::findBook(AString const& searchTitle) noexcept {
-    auto predicate = [searchTitle](_<Book> const& r) noexcept { return r->title().contains(searchTitle); };
+    auto predicate = [searchTitle](_<Book> const& r) noexcept { return r->title().value().contains(searchTitle); };
     const auto book = mBooks.writeScope()->findIf(predicate);
 
     return book ? *book : nullptr;

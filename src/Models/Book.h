@@ -20,10 +20,10 @@ public:
 
     void setBookInfo(AString, AString, AString, int);
 
-    [[nodiscard]] AString const& title() const noexcept { return mTitle; }
-    [[nodiscard]] AString const& author() const noexcept { return mAuthor; }
-    [[nodiscard]] AString const& publisher() const noexcept { return mPublisher; }
-    [[nodiscard]] int year() const noexcept { return mYear; }
+    [[nodiscard]] AProperty<AString> const& title() const noexcept { return mTitle; }
+    [[nodiscard]] AProperty<AString> const& author() const noexcept { return mAuthor; }
+    [[nodiscard]] AProperty<AString> const& publisher() const noexcept { return mPublisher; }
+    [[nodiscard]] AProperty<int> const& year() const noexcept { return mYear; }
 
     virtual Book& setTitle(AString title) noexcept { mTitle = std::move(title); return *this; }
     virtual Book& setAuthor(AString author) noexcept { mAuthor = std::move(author); return *this; }

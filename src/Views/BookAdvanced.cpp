@@ -9,24 +9,30 @@
 #include <AUI/View/AButton.h>
 #include <AUI/View/AForEachUI.h>
 #include <AUI/View/ARadioButton.h>
+#include <AUI/View/ATextField.h>
+#include <AUI/ASS/ASS.h>
 
 using namespace declarative;
 using namespace ass;
 
-BookAdvanced::BookAdvanced( _<Book> book) : mBook(std::move(book)) {
-    auto state = _new<State>();
-    std::copy(StaticElements::library->readers().value().begin(), StaticElements::library->readers().value().end(), std::back_inserter(state->mReaders.writeScope().value()));
+BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
 
+
+
+    ParamList();
+}
+    void BookAdvanced::ParamList() {
+    auto state = _new<State>();
+    std::copy(
+        StaticElements::library->readers().value().begin(), StaticElements::library->readers().value().end(),
+        std::back_inserter(state->mReaders.writeScope().value()));
     mButton = _new<AButton>();
 
-    mButton->setContents( Stacked{
-            Label { "Take book" }
-        }
-    );
+    mButton->setContents(Stacked { Label { "Take book" } });
 
     connect(mButton->clicked, [this, state] {
         if (state->mSelectedReader && StaticElements::library->giveBook(mBook, state->mSelectedReader)) {
-            ALogger::debug("Book '{}' taken by {}"_format( mBook->title(), state->mSelectedReader->value().name()));
+            ALogger::debug("Book '{}' taken by {}"_format(mBook->title().value(), state->mSelectedReader->value().name()));
         } else {
             ALogger::warn("No reader selected or failed to take book");
         }
@@ -36,52 +42,63 @@ BookAdvanced::BookAdvanced( _<Book> book) : mBook(std::move(book)) {
         buttonControl(printedbook->bookedBy().value());
         connect(printedbook->bookedBy().changed, AUI_SLOT(this)::buttonControl);
     }
-
-
-
-    setContents(Horizontal{
-        Vertical{
-            Label {"Name: "},
-            Label {mBook->title()}
-        },
-        Vertical{
-            Label {"Author: "},
-            Label {mBook->author()}
-        },
-        Vertical{
-            Label {"Publisher: "},
-            Label {mBook->publisher()}
-        },
-        Vertical{
-            Label {"Year: "},
-            Label {"{}"_format(mBook->year())}
-        },
-        Huyni(),
-        Label { "Select reader:" },
-        AUI_DECLARATIVE_FOR(reader, *state->mReaders, AVerticalLayout) {
-            return RadioButton {
-                .checked = AUI_REACT(state->mSelectedReader == reader),
-                .onClick = [state, reader] {
-                    state->mSelectedReader = reader;
-                },
-                .content = Label { reader->name() },
-            };
-        },
-        mButton,
-        SpacerExpanding(),
-        Vertical{
+        setContents(Vertical {
+          Vertical { Label { "Name: " }, Label { AUI_REACT(mBook->title()) } },
+          Vertical { Label { "Author: " }, Label { AUI_REACT(mBook->author()) } },
+          Vertical { Label { "Publisher: " }, Label { AUI_REACT(mBook->publisher()) } },
+          Vertical { Label { "Year: " }, Label { AUI_REACT("{}"_format(mBook->year().value())) } }, Huyni(), Label { "Select reader:" },
+          AUI_DECLARATIVE_FOR(reader, *state->mReaders, AVerticalLayout) {
+              return RadioButton {
+                  .checked = AUI_REACT(state->mSelectedReader == reader),
+                  .onClick = [state, reader] { state->mSelectedReader = reader; },
+                  .content = Label { reader->name() },
+              };
+          },
+          mButton, SpacerExpanding(),
+          Vertical {
             SpacerExpanding(),
             Button {
-                .content = Label { "Edit" },
+              .content = Label { "Edit" },
+              .onClick = [this] { ParamListEdit(); }
+            }
+          } AUI_OVERRIDE_STYLE { LayoutSpacing { 20_dp } } });
+    }
 
-            },
+    void BookAdvanced::ParamListEdit() {
+        auto tfName = _new<ATextField>();
+        auto tfAuthor = _new<ATextField>();
+        auto tfPublisher = _new<ATextField>();
+        auto tfYear = _new<ATextField>();
+        auto mBookTitle = mBook->title();
+        auto mBookAuthor = mBook->author();
+        auto mBookPublisher = mBook->publisher();
+        AProperty<AString> mBookYear = "{}"_format(mBook->year().value());
+        biConnect(mBookTitle, tfName->text());
+        biConnect(mBookAuthor, tfAuthor->text());
+        biConnect(mBookPublisher, tfPublisher->text());
+        biConnect(mBookYear, tfYear->text());
+        setContents(Vertical {
+          Vertical { Label { "Name: " }, tfName },
+          Vertical { Label { "Author: " }, tfAuthor },
+          Vertical { Label { "Publisher: " }, tfPublisher },
+          Vertical { Label { "Year: " }, tfYear }, Huyni(),
+          
+          SpacerExpanding(),
+          Vertical {
+            SpacerExpanding(),
             Button {
-                .content = Label { "Exit" },
-
-            },
-        } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } }});
-
-}
+              .content = Label { "Edit" },
+              .onClick = [this, mBookTitle, mBookAuthor, mBookPublisher, mBookYear] {
+                  mBook->setTitle(mBookTitle.value())
+                      .setAuthor(mBookAuthor.value())
+                      .setPublisher(mBookPublisher.value())
+                      .setYear(std::stoi(mBookYear.value()));
+                  ParamList();
+              }
+            }
+          } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } } });
+    }
+    
 
 _<AView> BookAdvanced::Huyni() const noexcept{
     if (const auto audiobook = std::dynamic_pointer_cast<AudioBook>(mBook)) {

@@ -14,6 +14,7 @@ public:
     _<AView> Huyni() const noexcept;
 
     ~BookAdvanced() override = default;
+    
 private:
     _<Book> mBook;
     _<AButton> mButton;
@@ -22,6 +23,8 @@ private:
         AProperty<_<Reader>> mSelectedReader = nullptr;
         AProperty<AVector<_<Reader>>> mReaders;
     };
+    void ParamList();
+    void ParamListEdit();
 
     void buttonControl(_<Reader> const&) noexcept;
 };

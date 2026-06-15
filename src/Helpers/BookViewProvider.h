@@ -25,7 +25,7 @@ public:
     static _<AView> createCompactView(_<Book> const& book) {
         return Button {
             .content = Vertical {
-                Label { "{}, {}"_format(book->title(), getFormatString(book)) }
+                Label { "{}, {}"_format(book->title().value(), getFormatString(book)) }
                 AUI_OVERRIDE_STYLE{ FontSize{ 14_dp }, LineHeight { 3_dp } },
             Label { getDetailsLine(book) }
                 AUI_OVERRIDE_STYLE{ FontSize{ 11_dp }, TextColor{ AColor::GRAY } }
@@ -72,7 +72,7 @@ private:
 
     static AString getDetailsLine(const _<Book>& book) {
         AString baseInfo = "Author: {}, Publisher: {}, Year: {}"_format(
-            book->author(), book->publisher(), book->year()
+            book->author().value(), book->publisher().value(), book->year().value()
         );
 
         if (const auto printed = std::dynamic_pointer_cast<PrintedBook>(book)) {
