@@ -4,7 +4,7 @@
 
 #include "CreateUserWindow.h"
 
-#include "StaticElements.h"
+#include "Helpers/StaticElements.h"
 
 #include <AUI/ASS/ASS.h>
 #include <AUI/Util/Declarative/Containers.h>

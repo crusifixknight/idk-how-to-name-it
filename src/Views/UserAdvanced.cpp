@@ -1,10 +1,9 @@
 #include "UserAdvanced.h"
-
-#include "StaticElements.h"
+#include "Models/Reader.h"
+#include "Helpers/StaticElements.h"
 
 #include <AUI/Util/Declarative/Containers.h>
 #include <AUI/View/ALabel.h>
-#include "Models/Reader.h"
 #include <AUI/View/AForEachUI.h>
 #include <AUI/View/AButton.h>
 

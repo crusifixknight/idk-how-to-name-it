@@ -2,7 +2,7 @@
 
 #include "BookList.h"
 #include "CreateUserWindow.h"
-#include "StaticElements.h"
+#include "Helpers/StaticElements.h"
 #include "UserAdvanced.h"
 #include "Models/Reader.h"
 

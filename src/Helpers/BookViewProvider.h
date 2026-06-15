@@ -1,8 +1,9 @@
 //
 // Created by crusifixknight on 6/14/2026.
 //
+#pragma once
 
-#include "BookAdvanced.h"
+#include "Views/BookAdvanced.h"
 #include "StaticElements.h"
 #include "Models/AudioBook.h"
 #include "Models/Book.h"

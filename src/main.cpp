@@ -1,12 +1,12 @@
-#include "BookList.h"
+#include "Views/BookList.h"
 #include <AUI/Platform/Entry.h>
-#include "StaticElements.h"
-#include "UserList.h"
-#include <Models/Library.h>
-#include <Models/EBook.h>
-#include <BookAdvanced.h>
-#include <Models/AudioBook.h>
-#include <Models/PrintedBook.h>
+#include "Helpers/StaticElements.h"
+#include "Views/UserList.h"
+#include "Models/Library.h"
+#include "Models/EBook.h"
+#include "Views/BookAdvanced.h"
+#include "Models/AudioBook.h"
+#include "Models/PrintedBook.h"
 
 AUI_ENTRY {
     auto readers = AVector<_<Reader>> {
