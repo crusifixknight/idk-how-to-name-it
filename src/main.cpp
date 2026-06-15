@@ -1,10 +1,7 @@
 #include "BookList.h"
-
 #include <AUI/Platform/Entry.h>
-#include "MyUpdater.h"
 #include "StaticElements.h"
 #include "UserList.h"
-
 #include <Models/Library.h>
 #include <Models/EBook.h>
 #include <BookAdvanced.h>
