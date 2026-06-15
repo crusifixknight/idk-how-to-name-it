@@ -18,12 +18,12 @@ public:
 
     ~AudioBook() override = default;
 
-    [[nodiscard]] Duration const& duration() const noexcept { return mDuration; }
+    [[nodiscard]] AProperty<Duration> const& duration() const noexcept { return mDuration; }
 
-    AudioBook& setDuration(const Duration duration) noexcept { mDuration = duration; return *this; }
-    AudioBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
-    AudioBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
-    AudioBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
+    AudioBook& setDuration(Duration const& duration) noexcept { mDuration = duration; return *this; }
+    AudioBook& setTitle(AString const& title) noexcept override { Book::setTitle(title); return *this; }
+    AudioBook& setAuthor(AString const& author) noexcept override { Book::setAuthor(author); return *this; }
+    AudioBook& setPublisher(AString const& publisher) noexcept override { Book::setPublisher(publisher); return *this; }
     AudioBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
     AProperty<Duration> mDuration;

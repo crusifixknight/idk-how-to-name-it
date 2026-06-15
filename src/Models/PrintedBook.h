@@ -27,9 +27,9 @@ public:
 
     PrintedBook& setCountOfPages(const int value) noexcept { mCountOfPages = value; return *this; }
     PrintedBook& setBookedBy(_<Reader> value) noexcept;
-    PrintedBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
-    PrintedBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
-    PrintedBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
+    PrintedBook& setTitle(AString const& title) noexcept override { Book::setTitle(title); return *this; }
+    PrintedBook& setAuthor(AString const& author) noexcept override { Book::setAuthor(author); return *this; }
+    PrintedBook& setPublisher(AString const& publisher) noexcept override { Book::setPublisher(publisher); return *this; }
     PrintedBook& setYear(const int year) noexcept override { Book::setYear(year); return *this; }
 private:
     AProperty<bool> mIsBooked;

@@ -16,12 +16,10 @@ using namespace declarative;
 using namespace ass;
 
 BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
-
-
-
     ParamList();
 }
-    void BookAdvanced::ParamList() {
+
+void BookAdvanced::ParamList() {
     auto state = _new<State>();
     std::copy(
         StaticElements::library->readers().value().begin(), StaticElements::library->readers().value().end(),
@@ -62,42 +60,43 @@ BookAdvanced::BookAdvanced(_<Book> book) : mBook(std::move(book)) {
               .onClick = [this] { ParamListEdit(); }
             }
           } AUI_OVERRIDE_STYLE { LayoutSpacing { 20_dp } } });
-    }
+}
 
-    void BookAdvanced::ParamListEdit() {
-        auto tfName = _new<ATextField>();
-        auto tfAuthor = _new<ATextField>();
-        auto tfPublisher = _new<ATextField>();
-        auto tfYear = _new<ATextField>();
-        auto mBookTitle = mBook->title();
-        auto mBookAuthor = mBook->author();
-        auto mBookPublisher = mBook->publisher();
-        AProperty<AString> mBookYear = "{}"_format(mBook->year().value());
-        biConnect(mBookTitle, tfName->text());
-        biConnect(mBookAuthor, tfAuthor->text());
-        biConnect(mBookPublisher, tfPublisher->text());
-        biConnect(mBookYear, tfYear->text());
-        setContents(Vertical {
-          Vertical { Label { "Name: " }, tfName },
-          Vertical { Label { "Author: " }, tfAuthor },
-          Vertical { Label { "Publisher: " }, tfPublisher },
-          Vertical { Label { "Year: " }, tfYear }, Huyni(),
+void BookAdvanced::ParamListEdit() {
+    auto tfName = _new<ATextField>();
+    auto tfAuthor = _new<ATextField>();
+    auto tfPublisher = _new<ATextField>();
+    auto tfYear = _new<ATextField>();
+
+
+    tfName->setText(mBook->title().value());
+    tfAuthor->setText(mBook->author().value());
+    tfPublisher->setText(mBook->publisher().value());
+    tfYear->setText("{}"_format(mBook->year().value()));
+
+    setContents(Vertical {
+       Vertical { Label { "Name: " }, tfName },
+       Vertical { Label { "Author: " }, tfAuthor },
+       Vertical { Label { "Publisher: " }, tfPublisher },
+       Vertical { Label { "Year: " }, tfYear }, Huyni(),
           
-          SpacerExpanding(),
+       SpacerExpanding(),
           Vertical {
-            SpacerExpanding(),
-            Button {
-              .content = Label { "Edit" },
-              .onClick = [this, mBookTitle, mBookAuthor, mBookPublisher, mBookYear] {
-                  mBook->setTitle(mBookTitle.value())
-                      .setAuthor(mBookAuthor.value())
-                      .setPublisher(mBookPublisher.value())
-                      .setYear(std::stoi(mBookYear.value()));
-                  ParamList();
+             SpacerExpanding(),
+              Button {
+                  .content = Label { "Edit" },
+                  .onClick = [this, tfName, tfAuthor, tfPublisher, tfYear] {
+                      mBook->setTitle(tfName->getText())
+                        .setAuthor(tfAuthor->getText())
+                        .setPublisher(tfPublisher->getText())
+                        .setYear(std::stoi(tfYear->getText()));
+                      ParamList();
+                  }
               }
-            }
-          } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp } } });
-    }
+          } AUI_OVERRIDE_STYLE { LayoutSpacing { 15_dp }
+          }
+    });
+}
     
 
 _<AView> BookAdvanced::Huyni() const noexcept{

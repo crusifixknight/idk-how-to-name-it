@@ -25,9 +25,9 @@ public:
     [[nodiscard]] AProperty<AString> const& publisher() const noexcept { return mPublisher; }
     [[nodiscard]] AProperty<int> const& year() const noexcept { return mYear; }
 
-    virtual Book& setTitle(AString title) noexcept { mTitle = std::move(title); return *this; }
-    virtual Book& setAuthor(AString author) noexcept { mAuthor = std::move(author); return *this; }
-    virtual Book& setPublisher(AString publisher) noexcept { mPublisher = std::move(publisher); return *this; }
+    virtual Book& setTitle(AString const& title) noexcept { mTitle = title; return *this; }
+    virtual Book& setAuthor(AString const& author) noexcept { mAuthor = author; return *this; }
+    virtual Book& setPublisher(AString const& publisher) noexcept { mPublisher = publisher; return *this; }
     virtual Book& setYear(const int year) noexcept { mYear = year; return *this; }
 private:
     AProperty<AString> mTitle;
