@@ -15,8 +15,6 @@ public:
 
     ~EBook() override = default;
 
-    AString const& getBookContent() override;
-
     EBook& setTitle(AString title) noexcept override { Book::setTitle(std::move(title)); return *this; }
     EBook& setAuthor(AString author) noexcept override { Book::setAuthor(std::move(author)); return *this; }
     EBook& setPublisher(AString publisher) noexcept override { Book::setPublisher(std::move(publisher)); return *this; }
