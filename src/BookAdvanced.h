@@ -10,14 +10,12 @@
 using namespace declarative;
 class BookAdvanced : public AWindow {
 public:
-    BookAdvanced(_<Library> const& library, _<Book>);
+    BookAdvanced(_<Book>);
     _<AView> Huyni() const noexcept;
 
     ~BookAdvanced() override = default;
 private:
     _<Book> mBook;
-    _<Library> mLibrary;
-
     _<AButton> mButton;
 
     struct State {

@@ -14,9 +14,9 @@
 using namespace declarative;
 using namespace ass;
 
-BookAdvanced::BookAdvanced(_<Library> const& library, _<Book> book) : mLibrary(library), mBook(std::move(book)) {
+BookAdvanced::BookAdvanced( _<Book> book) : mBook(std::move(book)) {
     auto state = _new<State>();
-    std::copy(mLibrary->readers().value().begin(), mLibrary->readers().value().end(), std::back_inserter(state->mReaders.writeScope().value()));
+    std::copy(StaticElements::library->readers().value().begin(), StaticElements::library->readers().value().end(), std::back_inserter(state->mReaders.writeScope().value()));
 
     mButton = _new<AButton>();
 
@@ -26,7 +26,7 @@ BookAdvanced::BookAdvanced(_<Library> const& library, _<Book> book) : mLibrary(l
     );
 
     connect(mButton->clicked, [this, state] {
-        if (state->mSelectedReader && mLibrary->giveBook(mBook, state->mSelectedReader)) {
+        if (state->mSelectedReader && StaticElements::library->giveBook(mBook, state->mSelectedReader)) {
             ALogger::debug("Book '{}' taken by {}"_format( mBook->title(), state->mSelectedReader->value().name()));
         } else {
             ALogger::warn("No reader selected or failed to take book");

@@ -8,10 +8,9 @@
 
 class UserAdvanced : public AWindow {
 public:
-    UserAdvanced(const _<Library>&, _<Reader>);
+    UserAdvanced(_<Reader>);
 
 
 private:
-    _<Library> mLibrary;
     _<Reader> mReader;
 };

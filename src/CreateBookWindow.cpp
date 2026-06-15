@@ -5,6 +5,7 @@
 #include "CreateBookWindow.h"
 
 #include "BookAdvanced.h"
+#include "StaticElements.h"
 #include "Models/AudioBook.h"
 #include "Models/EBook.h"
 
@@ -13,7 +14,7 @@
 #include <AUI/View/ARadioButton.h>
 using namespace declarative;
 
-CreateBookWindow::CreateBookWindow(_<Library> const& library) : mLibrary(library) {
+CreateBookWindow::CreateBookWindow() {
     setContents(
         Vertical {
             Label { "Select book type"},
@@ -65,7 +66,7 @@ void CreateBookWindow::createBook() {
         default:
             throw std::runtime_error("Unexpected error");
     }
-    mLibrary->addBook(newBook);
-    _new<BookAdvanced>(mLibrary, newBook)->show();
+    StaticElements::library->addBook(newBook);
+    _new<BookAdvanced>( newBook)->show();
     this->close();
 }

@@ -9,9 +9,8 @@
 
 class CreateBookWindow : public AWindow {
 public:
-    CreateBookWindow(_<Library> const&);
+    CreateBookWindow();
 private:
-    _<Library> mLibrary;
     AProperty<int> selectedBookType = 0;
     void createBook();
 };

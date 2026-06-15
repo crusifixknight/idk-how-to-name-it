@@ -1,4 +1,7 @@
 #include "UserAdvanced.h"
+
+#include "StaticElements.h"
+
 #include <AUI/Util/Declarative/Containers.h>
 #include <AUI/View/ALabel.h>
 #include "Models/Reader.h"
@@ -8,7 +11,7 @@
 using namespace declarative;
 using namespace ass;
 
-UserAdvanced::UserAdvanced(_<Library> const& library, _<Reader> reader): mLibrary(library), mReader(std::move(reader)) {
+UserAdvanced::UserAdvanced( _<Reader> reader) : mReader(std::move(reader)) {
     setContents(Horizontal {
             Vertical {
                 Label { "Name: " },
@@ -23,7 +26,7 @@ UserAdvanced::UserAdvanced(_<Library> const& library, _<Reader> reader): mLibrar
                         Button {
                             .content = Label { "Return" },
                             .onClick = [this, book] {
-                                if (mLibrary->returnBook(book, mReader)) {
+                                if (StaticElements::library->returnBook(book, mReader)) {
                                     ALogger::debug("Book returned: {}"_format(book->title()));
                                 } else {
                                     ALogger::warn("Failed to return book: {}"_format(book->title()));

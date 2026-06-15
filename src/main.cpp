@@ -2,6 +2,7 @@
 
 #include <AUI/Platform/Entry.h>
 #include "MyUpdater.h"
+#include "StaticElements.h"
 #include "UserList.h"
 
 #include <Models/Library.h>
@@ -26,8 +27,7 @@ AUI_ENTRY {
         _new<PrintedBook>("Crime and Punishment", "Fyodor Dostoevsky", "The Russian Messenger", 1866, 671)
     };
 
-    auto library = _new<Library>(books, readers);
-    _new<UserList>(library)->show();
-    // _new<BookList>(library->books())->show();
+    StaticElements::library = _new<Library>(books, readers);
+    _new<UserList>()->show();
     return 0;
 };

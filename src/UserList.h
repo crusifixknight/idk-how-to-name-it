@@ -7,9 +7,8 @@
 
 class UserList : public AWindow {
 public:
-    UserList(_<Library>);
+    UserList();
 
 private:
-    _<Library> mLibrary;
     void openUserAdvanced(_<Reader>);
 };
